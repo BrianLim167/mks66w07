@@ -4,7 +4,7 @@ from matrix import *
 
 def is_number(s):
     try:
-        float(repr(s))
+        float(s)
         return True
     except:
         return False
@@ -178,7 +178,6 @@ class PPMGrid(object):
                 for j in range(len(args)):
                     if ( is_number(args[j]) ):
                         args[j] = float(args[j])
-                    print( str(args[j]) +" "+ str(type(args[j])) )
             if ( cmd[i] == "line" ):
                 e.add_edge(*args)
             elif ( cmd[i] == "ident" ):
