@@ -139,9 +139,6 @@ class Matrix(object):
     def print( self ):
         print(self)
 
-    def __arghandler( *func ):
-        pass
-
     def add_polygon( self, x0, y0, z0, x1, y1, z1, x2, y2, z2 ):
         self.add_point(x0,y0,z0)
         self.add_point(x1,y1,z1)
@@ -191,43 +188,58 @@ class Matrix(object):
     def add_box( self, x, y, z, width, height, depth ):
         a, b, c = x+width, y-height, z-depth
 
-        self.add_point(x,y,z)
-        self.add_point(a,y,z)
+##        self.add_point(x,y,z)
+##        self.add_point(a,b,z)
+##        self.add_point(a,y,z)
 
+##        self.add_point(x,y,z)
+##        self.add_point(x,b,z)
+##        self.add_point(a,b,z)
+
+
+##        self.add_point(x,y,c)
+##        self.add_point(a,y,c)
+##        self.add_point(x,b,c)
+
+##        self.add_point(x,b,c)
+##        self.add_point(a,y,c)
+##        self.add_point(a,b,c)
+##
+##
+##        self.add_point(x,y,z)
+##        self.add_point(a,y,z)
+##        self.add_point(x,y,c)
+##
+##        self.add_point(x,y,c)
+##        self.add_point(a,y,z)
+##        self.add_point(a,y,c)
+##
+##
+##        self.add_point(x,b,z)
+##        self.add_point(a,b,c)
+##        self.add_point(a,b,z)
+##
+##        self.add_point(a,b,c)
+##        self.add_point(x,b,z)
+##        self.add_point(x,b,c)
+##
+##
+##        self.add_point(x,b,z)
+##        self.add_point(x,y,z)
+##        self.add_point(x,b,c)
+##        
+##        self.add_point(x,b,c)
+##        self.add_point(x,y,z)
+##        self.add_point(x,y,c)
+##
+        
         self.add_point(a,y,z)
         self.add_point(a,b,z)
-
-        self.add_point(a,b,z)
-        self.add_point(x,b,z)
-
-        self.add_point(x,b,z)
-        self.add_point(x,y,z)
-
-        
-        self.add_point(x,y,c)
-        self.add_point(a,y,c)
-
-        self.add_point(a,y,c)
-        self.add_point(a,b,c)
-
-        self.add_point(a,b,c)
-        self.add_point(x,b,c)
-
-        self.add_point(x,b,c)
-        self.add_point(x,y,c)
-
-
-        self.add_point(x,y,z)
-        self.add_point(x,y,c)
-        
-        self.add_point(a,y,z)
         self.add_point(a,y,c)
         
+        self.add_point(a,y,c)
         self.add_point(a,b,z)
         self.add_point(a,b,c)
-        
-        self.add_point(x,b,z)
-        self.add_point(x,b,c)
 
     def add_sphere( self, cx, cy, cz, r, step=0.02 ):
         m = Matrix.sphere(cx,cy,cz, r, step)

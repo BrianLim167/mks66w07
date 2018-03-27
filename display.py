@@ -170,6 +170,7 @@ class PPMGrid(object):
 
         t = Matrix.ident()
         e = Matrix(0,4)
+        p = Matrix(0,4)
 
         cmd = fread.split('\n')
         for i in range(len(cmd)):
@@ -195,15 +196,19 @@ class PPMGrid(object):
                     t *= Matrix.rotz(args[1])
             elif ( cmd[i] == "apply" ):
                 e *= t
+                p *= t
             elif ( cmd[i] == "clear" ):
                 e = Matrix(0,4)
+                p = Matrix(0,4)
             elif ( cmd[i] == "display" ):
                 self.clear()
                 self.draw_lines(e, color)
+                self.draw_polygons(p, color)
                 self.display()
             elif ( cmd[i] == "save" ):
                 self.clear()
                 self.draw_lines(e, color)
+                self.draw_polygons(p, color)
                 self.save_extension(args[0])
             elif ( cmd[i] == "quit" ):
                 return
@@ -212,7 +217,7 @@ class PPMGrid(object):
             elif ( cmd[i] == "bezier" or cmd[i] == "hermite" ):
                 e.add_curve(*args,0.001,cmd[i])
             elif ( cmd[i] == "box" ):
-                e.add_box(*args)
+                p.add_box(*args)
             elif ( cmd[i] == "sphere" ):
                 e.add_sphere(*args)
             elif ( cmd[i] == "torus" ):
