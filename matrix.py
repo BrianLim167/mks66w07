@@ -186,60 +186,60 @@ class Matrix(object):
         self.append(m)
 
     def add_box( self, x, y, z, width, height, depth ):
-        a, b, c = x+width, y-height, z-depth
+        x, y, z, a, b, c = x, y-height, z-depth, x+width, y, z
 
-##        self.add_point(x,y,z)
-##        self.add_point(a,b,z)
-##        self.add_point(a,y,z)
-
-##        self.add_point(x,y,z)
-##        self.add_point(x,b,z)
-##        self.add_point(a,b,z)
-
-
-##        self.add_point(x,y,c)
-##        self.add_point(a,y,c)
-##        self.add_point(x,b,c)
-
-##        self.add_point(x,b,c)
-##        self.add_point(a,y,c)
-##        self.add_point(a,b,c)
-##
-##
-##        self.add_point(x,y,z)
-##        self.add_point(a,y,z)
-##        self.add_point(x,y,c)
-##
-##        self.add_point(x,y,c)
-##        self.add_point(a,y,z)
-##        self.add_point(a,y,c)
-##
-##
-##        self.add_point(x,b,z)
-##        self.add_point(a,b,c)
-##        self.add_point(a,b,z)
-##
-##        self.add_point(a,b,c)
-##        self.add_point(x,b,z)
-##        self.add_point(x,b,c)
-##
-##
-##        self.add_point(x,b,z)
-##        self.add_point(x,y,z)
-##        self.add_point(x,b,c)
-##        
-##        self.add_point(x,b,c)
-##        self.add_point(x,y,z)
-##        self.add_point(x,y,c)
-##
-        
+        self.add_point(x,y,z)
+        self.add_point(a,b,z)
         self.add_point(a,y,z)
+
         self.add_point(a,b,z)
+        self.add_point(x,y,z)
+        self.add_point(x,b,z)
+
+
+        self.add_point(x,y,c)
         self.add_point(a,y,c)
-        
+        self.add_point(x,b,c)
+
+        self.add_point(x,b,c)
         self.add_point(a,y,c)
-        self.add_point(a,b,z)
         self.add_point(a,b,c)
+
+
+        self.add_point(x,y,z)
+        self.add_point(a,y,z)
+        self.add_point(x,y,c)
+
+        self.add_point(x,y,c)
+        self.add_point(a,y,z)
+        self.add_point(a,y,c)
+
+
+        self.add_point(x,b,z)
+        self.add_point(a,b,c)
+        self.add_point(a,b,z)
+
+        self.add_point(a,b,c)
+        self.add_point(x,b,z)
+        self.add_point(x,b,c)
+
+
+        self.add_point(a,b,z)
+        self.add_point(a,y,z)
+        self.add_point(a,b,c)
+        
+        self.add_point(a,b,c)
+        self.add_point(a,y,z)
+        self.add_point(a,y,c)
+
+        
+        self.add_point(x,y,z)
+        self.add_point(x,b,z)
+        self.add_point(x,y,c)
+        
+        self.add_point(x,y,c)
+        self.add_point(x,b,z)
+        self.add_point(x,b,c)
 
     def add_sphere( self, cx, cy, cz, r, step=0.02 ):
         m = Matrix.sphere(cx,cy,cz, r, step)

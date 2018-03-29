@@ -153,9 +153,9 @@ class PPMGrid(object):
 
     def draw_polygons( self, matrix, color):
         for c in range(matrix.cols//3):
-            self.draw_line( *matrix[c*2][:2], *matrix[c*2+1][:2], color )
-            self.draw_line( *matrix[c*2+1][:2], *matrix[c*2+2][:2], color )
-            self.draw_line( *matrix[c*2+2][:2], *matrix[c*2][:2], color )
+            self.draw_line( *matrix[c*3][:2], *matrix[c*3+1][:2], color )
+            self.draw_line( *matrix[c*3+1][:2], *matrix[c*3+2][:2], color )
+            self.draw_line( *matrix[c*3+2][:2], *matrix[c*3][:2], color )
 
 
     ############################################################################
