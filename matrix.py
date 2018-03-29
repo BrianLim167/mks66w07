@@ -241,16 +241,15 @@ class Matrix(object):
         self.add_point(x,b,z)
         self.add_point(x,b,c)
 
-    def add_sphere( self, cx, cy, cz, r, step=0.02 ):
+    def add_sphere( self, cx, cy, cz, r, step=0.1 ):
         m = Matrix.sphere(cx,cy,cz, r, step)
-        for i in range(m.cols):
+        for i in range(m.cols-int(1/step)):
             self.append(m[i])
-            n = m[i].copy()
-            n[2] += 1
-            self.append(n)
+            self.append(m[i+1])
+            self.append(m[i+int(1/step)])
 
     @staticmethod
-    def sphere( cx, cy, cz, r, step=0.02 ):
+    def sphere( cx, cy, cz, r, step=0.1 ):
         m = Matrix(0,4)
         t = 0
         rot = Matrix.roty(360 * step)
