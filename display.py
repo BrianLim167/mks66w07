@@ -151,7 +151,9 @@ class PPMGrid(object):
     # matrix
     ############################################################################
 
-    def draw_polygons( self, matrix, color):
+    def draw_polygons( self, matrix, color, backface_culling=True ):
+        if ( backface_culling ):
+            matrix = matrix.backface_cull()
         for c in range(matrix.cols//3):
             self.draw_line( *matrix[c*3][:2], *matrix[c*3+1][:2], color )
             self.draw_line( *matrix[c*3+1][:2], *matrix[c*3+2][:2], color )
@@ -219,8 +221,8 @@ class PPMGrid(object):
             elif ( cmd[i] == "box" ):
                 p.add_box(*args)
             elif ( cmd[i] == "sphere" ):
-                p.add_sphere(*args,True)
+                p.add_sphere(*args)
             elif ( cmd[i] == "torus" ):
-                e.add_torus(*args)
+                p.add_torus(*args)
         
 
