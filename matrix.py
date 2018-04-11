@@ -100,12 +100,31 @@ class Matrix(object):
             for r in range( rows ):
                 self[c].append( 0 )
 
+    def copy(self):
+        m = Matrix(self.cols,self.rows)
+        for c in range( self.cols ):
+            for r in range( self.rows ):
+                m[c][r] = self[c][r]
+        return m
+
     def __mul__(self, other):
-        return Matrix.mult(self,other)
+        if ( isinstance(other, Matrix) ):
+            return Matrix.mult(self,other)
+        m = self.copy()
+        for c in range( self.cols ):
+            for r in range( self.rows ):
+                m[c][r] *= other
+        return m
+
+    def __rmul__(self, other):
+        return self * other
 
     def __imul__(self, other):
         self = other * self
         return self
+
+    def __neg__(self):
+        return -1 * self
 
     def __getitem__(self, i):
         return self.ary[i]
@@ -151,7 +170,7 @@ class Matrix(object):
     def add_point( self, x, y, z=0 ):
         self.append([x,y,z,1])
 
-    def add_circle( self, cx, cy, cz, r, count=1000, connect=True ):
+    def add_circle( self, cx, cy, cz, r, edge=True, count=1000 ):
         step = 1/count
         t = 0
         m = Matrix(0,4)
@@ -159,12 +178,29 @@ class Matrix(object):
             a = math.radians(360*t)
             m.add_point(cx + r*math.cos(a), cy + r*math.sin(a), cz)
             a = math.radians(360*(t+step))
-            if ( connect ):
+            if ( edge ):
                 m.add_point(cx + r*math.cos(a), cy + r*math.sin(a), cz)
             t += step
-        if ( not connect ):
+        if ( not edge ):
             a = math.radians(360*t)
             m.add_point(cx + r*math.cos(a), cy + r*math.sin(a), cz)
+        self.append(m)
+        
+    def add_semicircle( self, cx, cy, cz, r, edge=True, count=1000 ):
+        step = 1/count
+        t = 0
+        m = Matrix(0,4)
+        while ( t <= 1 ):
+            a = math.radians(180*t)
+            m.add_point(cx + r*math.cos(a), cy + r*math.sin(a), cz)
+            a = math.radians(180*(t+step))
+            if ( edge ):
+                m.add_point(cx + r*math.cos(a), cy + r*math.sin(a), cz)
+            t += step
+        if ( not edge ):
+            a = math.radians(180*t)
+            m.add_point(cx + r*math.cos(a), cy + r*math.sin(a), cz)
+        m *= Matrix.rotz(270)
         self.append(m)
 
     def add_curve( self, x0, y0, x1, y1, x2, y2, x3, y3, count, curve_type ):
@@ -243,22 +279,40 @@ class Matrix(object):
         self.add_point(x,b,z)
         self.add_point(x,b,c)
 
-    def add_sphere( self, cx, cy, cz, r, count=10 ):
+    def add_sphere( self, cx, cy, cz, r, polygon=True, count=8 ):
         step = 1/count
         m = Matrix.sphere(cx,cy,cz, r, count)
-        for i in range(m.cols-count):
-            self.append(m[i])
-            self.append(m[i+1])
-            self.append(m[(i+count)%m.cols])
+        if ( polygon ):
+            self.append(m)
+##            for i in range(count):
+##                for j in range(count):
+##                    self.append(m[i*count + j])
+##                    self.append(m[i*count + (j + 1)%count])
+##                    self.append(m[(i+1)%count*count + j])
+        else:
+            for i in range(m.cols):
+                self.append(m[i])
+                n = m[i].copy()
+                n[2] += 1
+                self.append(n) 
 
     @staticmethod
     def sphere( cx, cy, cz, r, count=10 ):
         step = 1/count
         m = Matrix(0,4)
         t = 0
-        rot = Matrix.roty(180 * step)
+        rot = Matrix.roty(360 * step)
         while ( t <= 1 ):
-            m.add_circle(0,0,0, r, count, False)
+            a,b,c = Matrix(0,4),Matrix(0,4),Matrix(0,4)
+            a.add_semicircle(0,0,0, r, False, count)
+            b.add_semicircle(0,0,0, r, False, count)
+            b *= rot
+            c.add_semicircle(0,0,0, r, False, count)
+            c *= -rot
+            for i in range(len(a)):
+                m.append(a[i])
+                m.append(a[(i+1)%len(a)])
+                m.append(b[i])
             m *= rot
             t += step
         m *= Matrix.mover(cx, cy, cz)
@@ -280,7 +334,7 @@ class Matrix(object):
         t = 0
         rot = Matrix.roty(360 * step)
         while ( t < 1 ):
-            m.add_circle(r1,0,0, r0, count, False)
+            m.add_circle(r1,0,0, r0, False, count)
             m *= rot
             t += step
         m *= Matrix.rotx(90)

@@ -219,7 +219,7 @@ class PPMGrid(object):
             elif ( cmd[i] == "box" ):
                 p.add_box(*args)
             elif ( cmd[i] == "sphere" ):
-                e.add_sphere(*args)
+                p.add_sphere(*args,True)
             elif ( cmd[i] == "torus" ):
                 e.add_torus(*args)
         
