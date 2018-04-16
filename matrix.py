@@ -288,9 +288,9 @@ class Matrix(object):
         step = 1/count
         m = Matrix(0,4)
         t = 0
-        rot = Matrix.roty(360 * step)
-        rotb = Matrix.roty(-360 * step)
         while ( t < 1 ):
+            rot = Matrix.roty(360 * (t+step))
+            rotb = Matrix.roty(360 * (t-step))
             if ( poly ):
                 a,b,c = Matrix(0,4),Matrix(0,4),Matrix(0,4)
                 a.add_semicircle(0,0,0, r, False, count)
@@ -308,8 +308,11 @@ class Matrix(object):
                     m.append(a[(i+1)%len(a)])
             else:
                 m.add_semicircle(0,0,0, r, True, count)
-            m *= rot
+##            m *= rotb
             t += step
+        m *= Matrix.rotx(45*0)
+        m *= Matrix.roty(45*0)
+        m *= Matrix.rotz(45*0)
         m *= Matrix.mover(cx, cy, cz)
         return m
 
@@ -344,7 +347,9 @@ class Matrix(object):
                 m.add_circle(r1,0,0, r0, False, count)
             m *= rot
             t += step
-        m *= Matrix.rotx(90)
+        m *= Matrix.rotx(45*0)
+        m *= Matrix.roty(45*0)
+        m *= Matrix.rotz(45*0)
         m *= Matrix.mover(cx, cy, cz)
         return m
 
